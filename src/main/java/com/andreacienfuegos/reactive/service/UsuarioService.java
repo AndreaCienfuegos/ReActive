@@ -1,11 +1,12 @@
 package com.andreacienfuegos.reactive.service;
 
 import com.andreacienfuegos.reactive.dto.UsuarioRegistroDTO;
-import com.andreacienfuegos.reactive.entity.Sexo;
+import com.andreacienfuegos.reactive.entity.Rol;
 import com.andreacienfuegos.reactive.entity.Usuario;
 import com.andreacienfuegos.reactive.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -25,7 +26,7 @@ public class UsuarioService {
         return usuarioRepository.save(usuario);
     }
 
-    public Usuario registrar(UsuarioRegistroDTO dto) {
+    public Usuario registrarUsuario(UsuarioRegistroDTO dto) {
 
         Usuario usuario = new Usuario();
 
@@ -34,13 +35,8 @@ public class UsuarioService {
         usuario.setEmail(dto.getEmail());
         usuario.setPassword(dto.getPassword());
 
-        usuario.setFechaNacimiento(dto.getFechaNacimiento());
-        usuario.setAlturaCm(dto.getAlturaCm());
-        usuario.setPesoKg(dto.getPesoKg());
-
-        if (dto.getSexo() != null) {
-            usuario.setSexo(Sexo.valueOf(dto.getSexo().toUpperCase()));
-        }
+        usuario.setFechaRegistro(LocalDate.now());
+        usuario.setRol(Rol.USUARIO);
 
         return usuarioRepository.save(usuario);
     }
