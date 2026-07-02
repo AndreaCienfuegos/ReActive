@@ -35,6 +35,11 @@ public class UsuarioService {
         usuario.setEmail(dto.getEmail());
         usuario.setPassword(dto.getPassword());
 
+        usuario.setFechaNacimiento(dto.getFechaNacimiento());
+        usuario.setSexo(dto.getSexo());
+        usuario.setAlturaCm(dto.getAlturaCm());
+        usuario.setPesoKg(dto.getPesoKg());
+
         usuario.setFechaRegistro(LocalDate.now());
         usuario.setRol(Rol.USUARIO);
 

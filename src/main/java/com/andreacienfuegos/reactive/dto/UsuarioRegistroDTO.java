@@ -1,5 +1,6 @@
 package com.andreacienfuegos.reactive.dto;
 
+import com.andreacienfuegos.reactive.entity.Sexo;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -24,7 +25,7 @@ public class UsuarioRegistroDTO {
 
     private LocalDate fechaNacimiento;
 
-    private String sexo;
+    private Sexo sexo;
 
     private Integer alturaCm;
 
@@ -73,11 +74,11 @@ public class UsuarioRegistroDTO {
         this.fechaNacimiento = fechaNacimiento;
     }
 
-    public String getSexo() {
+    public Sexo getSexo() {
         return sexo;
     }
 
-    public void setSexo(String sexo) {
+    public void setSexo(Sexo sexo) {
         this.sexo = sexo;
     }
 
