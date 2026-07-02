@@ -3,6 +3,7 @@ package com.andreacienfuegos.reactive.service;
 import com.andreacienfuegos.reactive.dto.UsuarioRegistroDTO;
 import com.andreacienfuegos.reactive.entity.Rol;
 import com.andreacienfuegos.reactive.entity.Usuario;
+import com.andreacienfuegos.reactive.exception.EmailDuplicadoException;
 import com.andreacienfuegos.reactive.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +28,10 @@ public class UsuarioService {
     }
 
     public Usuario registrarUsuario(UsuarioRegistroDTO dto) {
+
+        if (usuarioRepository.existsByEmail(dto.getEmail())) {
+            throw new EmailDuplicadoException("Ya existe un usuario con ese correo electrónico.");
+        }
 
         Usuario usuario = new Usuario();
 
@@ -53,4 +58,5 @@ public class UsuarioService {
     public void eliminar(Long id) {
         usuarioRepository.deleteById(id);
     }
+
 }
