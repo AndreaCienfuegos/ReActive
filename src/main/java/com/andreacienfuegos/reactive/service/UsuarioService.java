@@ -5,6 +5,7 @@ import com.andreacienfuegos.reactive.entity.Rol;
 import com.andreacienfuegos.reactive.entity.Usuario;
 import com.andreacienfuegos.reactive.exception.EmailDuplicadoException;
 import com.andreacienfuegos.reactive.repository.UsuarioRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -14,9 +15,12 @@ import java.util.List;
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UsuarioService(UsuarioRepository usuarioRepository) {
+    public UsuarioService(UsuarioRepository usuarioRepository,
+                          PasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<Usuario> obtenerTodos() {
@@ -38,7 +42,9 @@ public class UsuarioService {
         usuario.setNombre(dto.getNombre());
         usuario.setApellidos(dto.getApellidos());
         usuario.setEmail(dto.getEmail());
-        usuario.setPassword(dto.getPassword());
+
+        // 🔒 Ciframos la contraseña
+        usuario.setPassword(passwordEncoder.encode(dto.getPassword()));
 
         usuario.setFechaNacimiento(dto.getFechaNacimiento());
         usuario.setSexo(dto.getSexo());
