@@ -5,6 +5,8 @@ import com.andreacienfuegos.reactive.dto.LoginResponse;
 import com.andreacienfuegos.reactive.security.JwtService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,21 +17,22 @@ public class AuthenticationService {
 
     public AuthenticationService(AuthenticationManager authenticationManager,
                                  JwtService jwtService) {
-
         this.authenticationManager = authenticationManager;
         this.jwtService = jwtService;
     }
 
     public LoginResponse login(LoginRequest request) {
 
-        authenticationManager.authenticate(
+        Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
                         request.getPassword()
                 )
         );
 
-        String token = jwtService.generarToken(request.getEmail());
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+        String token = jwtService.generarToken(userDetails);
 
         return new LoginResponse(token);
     }
