@@ -85,4 +85,12 @@ public class UsuarioService {
         return dto;
     }
 
+    public UsuarioResponseDTO obtenerPerfil(String email) {
+
+        Usuario usuario = usuarioRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        return convertirADTO(usuario);
+    }
+
 }
