@@ -29,7 +29,7 @@ public class UsuarioController {
     }
 
     @PostMapping("/registro")
-    public Usuario registrar(@Valid @RequestBody UsuarioRegistroDTO dto) {
+    public UsuarioResponseDTO registrar(@Valid @RequestBody UsuarioRegistroDTO dto) {
         return usuarioService.registrarUsuario(dto);
     }
 

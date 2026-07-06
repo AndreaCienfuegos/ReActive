@@ -36,7 +36,7 @@ public class UsuarioService {
         return usuarioRepository.save(usuario);
     }
 
-    public Usuario registrarUsuario(UsuarioRegistroDTO dto) {
+    public UsuarioResponseDTO registrarUsuario(UsuarioRegistroDTO dto) {
 
         if (usuarioRepository.existsByEmail(dto.getEmail())) {
             throw new EmailDuplicadoException("Ya existe un usuario con ese correo electrónico.");
@@ -59,7 +59,9 @@ public class UsuarioService {
         usuario.setFechaRegistro(LocalDate.now());
         usuario.setRol(Rol.USUARIO);
 
-        return usuarioRepository.save(usuario);
+        Usuario usuarioGuardado = usuarioRepository.save(usuario);
+
+        return convertirADTO(usuarioGuardado);
     }
 
     public Usuario buscarPorId(Long id) {
@@ -92,5 +94,9 @@ public class UsuarioService {
 
         return convertirADTO(usuario);
     }
+    public Usuario buscarPorEmail(String email) {
 
+        return usuarioRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+    }
 }
