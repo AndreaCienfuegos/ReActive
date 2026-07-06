@@ -7,6 +7,8 @@ import com.andreacienfuegos.reactive.exception.EmailDuplicadoException;
 import com.andreacienfuegos.reactive.repository.UsuarioRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import com.andreacienfuegos.reactive.dto.UsuarioResponseDTO;
+import java.util.stream.Collectors;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -23,10 +25,13 @@ public class UsuarioService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public List<Usuario> obtenerTodos() {
-        return usuarioRepository.findAll();
-    }
+    public List<UsuarioResponseDTO> obtenerTodos() {
 
+        return usuarioRepository.findAll()
+                .stream()
+                .map(this::convertirADTO)
+                .collect(Collectors.toList());
+    }
     public Usuario guardar(Usuario usuario) {
         return usuarioRepository.save(usuario);
     }
@@ -63,6 +68,21 @@ public class UsuarioService {
 
     public void eliminar(Long id) {
         usuarioRepository.deleteById(id);
+    }
+    private UsuarioResponseDTO convertirADTO(Usuario usuario) {
+
+        UsuarioResponseDTO dto = new UsuarioResponseDTO();
+
+        dto.setIdUsuario(usuario.getIdUsuario());
+        dto.setNombre(usuario.getNombre());
+        dto.setApellidos(usuario.getApellidos());
+        dto.setEmail(usuario.getEmail());
+        dto.setSexo(usuario.getSexo());
+        dto.setAlturaCm(usuario.getAlturaCm());
+        dto.setPesoKg(usuario.getPesoKg());
+        dto.setRol(usuario.getRol());
+
+        return dto;
     }
 
 }

@@ -1,6 +1,7 @@
 package com.andreacienfuegos.reactive.controller;
 
 import com.andreacienfuegos.reactive.dto.UsuarioRegistroDTO;
+import com.andreacienfuegos.reactive.dto.UsuarioResponseDTO;
 import com.andreacienfuegos.reactive.entity.Usuario;
 import com.andreacienfuegos.reactive.service.UsuarioService;
 import jakarta.validation.Valid;
@@ -19,7 +20,7 @@ public class UsuarioController {
     }
 
     @GetMapping
-    public List<Usuario> obtenerTodos() {
+    public List<UsuarioResponseDTO> obtenerTodos() {
         return usuarioService.obtenerTodos();
     }
 
