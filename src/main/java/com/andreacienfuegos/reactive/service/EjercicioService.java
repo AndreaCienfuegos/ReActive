@@ -42,6 +42,12 @@ public class EjercicioService {
 
         return convertirADTO(guardado);
     }
+    public Ejercicio buscarEntidadPorId(Long id) {
+
+        return ejercicioRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Ejercicio no encontrado"));
+    }
 
     private EjercicioResponseDTO convertirADTO(Ejercicio ejercicio) {
 

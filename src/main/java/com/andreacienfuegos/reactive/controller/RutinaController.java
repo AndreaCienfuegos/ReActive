@@ -45,4 +45,40 @@ public class RutinaController {
                 userDetails.getUsername()
         );
     }
+
+    @PostMapping("/{idRutina}/ejercicios/{idEjercicio}")
+    public RutinaResponseDTO agregarEjercicio(
+            @PathVariable Long idRutina,
+            @PathVariable Long idEjercicio) {
+
+        return rutinaService.agregarEjercicio(idRutina, idEjercicio);
+    }
+
+    @DeleteMapping("/{idRutina}/ejercicios/{idEjercicio}")
+    public RutinaResponseDTO eliminarEjercicio(
+            @PathVariable Long idRutina,
+            @PathVariable Long idEjercicio) {
+
+        return rutinaService.eliminarEjercicio(idRutina, idEjercicio);
+    }
+    @GetMapping("/{id}")
+    public RutinaResponseDTO obtenerPorId(
+            @PathVariable Long id) {
+
+        return rutinaService.obtenerPorId(id);
+    }
+    @DeleteMapping("/{id}")
+    public void eliminarRutina(
+            @PathVariable Long id) {
+
+        rutinaService.eliminarRutina(id);
+    }
+
+    @PutMapping("/{id}")
+    public RutinaResponseDTO actualizarRutina(
+            @PathVariable Long id,
+            @Valid @RequestBody RutinaRegistroDTO dto) {
+
+        return rutinaService.actualizarRutina(id, dto);
+    }
 }
