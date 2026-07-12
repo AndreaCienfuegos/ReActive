@@ -4,6 +4,7 @@ import com.andreacienfuegos.reactive.security.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
@@ -17,6 +18,7 @@ public class SecurityConfig {
 
     public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter,
                           AuthenticationProvider authenticationProvider) {
+
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
         this.authenticationProvider = authenticationProvider;
     }
@@ -25,6 +27,9 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
+
+                .cors(Customizer.withDefaults())
+
                 .csrf(csrf -> csrf.disable())
 
                 .sessionManagement(session ->
@@ -33,8 +38,10 @@ public class SecurityConfig {
 
                 .authenticationProvider(authenticationProvider)
 
-                .addFilterBefore(jwtAuthenticationFilter,
-                        UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(
+                        jwtAuthenticationFilter,
+                        UsernamePasswordAuthenticationFilter.class
+                )
 
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(

@@ -23,10 +23,32 @@ public class EjercicioController {
         return ejercicioService.obtenerTodos();
     }
 
+    @GetMapping("/{id}")
+    public EjercicioResponseDTO obtenerPorId(
+            @PathVariable Long id) {
+
+        return ejercicioService.obtenerPorId(id);
+    }
+
     @PostMapping
     public EjercicioResponseDTO guardar(
             @Valid @RequestBody EjercicioRegistroDTO dto) {
 
         return ejercicioService.guardar(dto);
+    }
+
+    @PutMapping("/{id}")
+    public EjercicioResponseDTO actualizar(
+            @PathVariable Long id,
+            @Valid @RequestBody EjercicioRegistroDTO dto) {
+
+        return ejercicioService.actualizar(id, dto);
+    }
+
+    @DeleteMapping("/{id}")
+    public void eliminar(
+            @PathVariable Long id) {
+
+        ejercicioService.eliminar(id);
     }
 }

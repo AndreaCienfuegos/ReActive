@@ -24,6 +24,15 @@ public class EjercicioService {
                 .stream()
                 .map(this::convertirADTO)
                 .collect(Collectors.toList());
+
+    }
+
+    public EjercicioResponseDTO obtenerPorId(Long id) {
+
+        Ejercicio ejercicio = buscarEntidadPorId(id);
+
+        return convertirADTO(ejercicio);
+
     }
 
     public EjercicioResponseDTO guardar(EjercicioRegistroDTO dto) {
@@ -41,12 +50,43 @@ public class EjercicioService {
         Ejercicio guardado = ejercicioRepository.save(ejercicio);
 
         return convertirADTO(guardado);
+
     }
+
+    public EjercicioResponseDTO actualizar(
+            Long id,
+            EjercicioRegistroDTO dto) {
+
+        Ejercicio ejercicio = buscarEntidadPorId(id);
+
+        ejercicio.setNombre(dto.getNombre());
+        ejercicio.setDescripcion(dto.getDescripcion());
+        ejercicio.setGrupoMuscular(dto.getGrupoMuscular());
+        ejercicio.setMaterial(dto.getMaterial());
+        ejercicio.setNivel(dto.getNivel());
+        ejercicio.setVideoUrl(dto.getVideoUrl());
+        ejercicio.setImagenUrl(dto.getImagenUrl());
+
+        Ejercicio actualizado = ejercicioRepository.save(ejercicio);
+
+        return convertirADTO(actualizado);
+
+    }
+
+    public void eliminar(Long id) {
+
+        Ejercicio ejercicio = buscarEntidadPorId(id);
+
+        ejercicioRepository.delete(ejercicio);
+
+    }
+
     public Ejercicio buscarEntidadPorId(Long id) {
 
         return ejercicioRepository.findById(id)
                 .orElseThrow(() ->
                         new RuntimeException("Ejercicio no encontrado"));
+
     }
 
     private EjercicioResponseDTO convertirADTO(Ejercicio ejercicio) {
@@ -63,5 +103,7 @@ public class EjercicioService {
         dto.setImagenUrl(ejercicio.getImagenUrl());
 
         return dto;
+
     }
+
 }
